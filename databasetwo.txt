@@ -1,0 +1,51 @@
+import psycopg2
+
+
+conn = psycopg2.connect(host="localhost",database="entsystem",user="postgres",password="eshaana1234")    
+c=conn.cursor()
+
+def create_table():
+    c.execute('CREATE TABLE IF NOT EXISTS Movie( show_id integer primary key not null,language varchar(20),St_time timestamp,end_time timestamp,show_name varchar(30))')
+
+
+def add_data(show_id,language,St_time,end_time,show_name):
+    c.execute(f'INSERT INTO Vehicle_Type(show_id,language,St_time,end_time,show_name) VALUES ({show_id},\'{language}\',{St_time},{end_time},\'{show_name}\')',
+              ({show_id},{language},{St_time},{end_time},{show_name}))
+    conn.commit()
+
+
+def view_all_data():
+    c.execute('SELECT * FROM Movie')
+    data = c.fetchall()
+    return data
+
+
+def view_only_tasks():
+    c.execute('SELECT show_id FROM Movie')
+    data = c.fetchall()
+    return data
+
+
+def get_task(show_id):
+    c.execute('SELECT * FROM Movie WHERE show_id={}'.format(show_id))
+    data = c.fetchall()
+    return data
+
+
+def edit_task_data(new_show_id,new_language,new_St_time,new_end_time,new_show_name, show_id,language,St_time,end_time,show_name):
+    c.execute(f"UPDATE Movie SET show_id={new_show_id}, language=\'{new_language}\', St_time={new_Cost_St_time},end_time={new_end_time},show_name=\'{new_show_name}\' where show_id={show_id}")
+        #({new_VehicleType_ID},{new_Type},{new_Cost_Per_Km},{new_Required_Deposit},{VehicleType_ID}))
+    conn.commit()
+
+
+def delete_data(show_id):
+    c.execute('DELETE FROM Movie WHERE show_id={}'.format(show_id))
+    conn.commit()
+
+
+
+
+'''
+f'INSERT INTO Vehicle_Type(VehicleType_ID,Type,Cost_Per_Km,Required_Deposit) VALUES ({VehicleType_ID},\'{Type}\',{Cost_Per_Km},{Required_Deposit})',
+              ({VehicleType_ID},{Type},{Cost_Per_Km},{Required_Deposit}))
+              '''

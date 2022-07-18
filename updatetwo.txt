@@ -1,0 +1,40 @@
+import pandas as pd
+import streamlit as st
+from database import view_all_data, view_only_tasks, get_task, edit_task_data
+
+
+def update():
+    result = view_all_data()
+    # st.write(result)
+    df = pd.DataFrame(result, columns=['show_id','language','St_time','end_time','show_name'])
+    with st.expander("Existing Movie details"):
+        st.dataframe(df)
+
+
+    list_of_tasks = {i[0] for i in view_only_tasks()}
+    selected_task = st.selectbox("Movie details to Edit", list_of_tasks)
+    selected_result = get_task(selected_task)
+    # st.write(selected_result)
+    if selected_result:
+        show_id = selected_result[0][0]
+        language = selected_result[0][1]
+        St_time= selected_result[0][2]
+        end_time= selected_result[0][3]
+	show_name=selected_result[0][4]
+
+        # Layout of Create
+    col1, col2 = st.columns(2)
+    with col1:
+        new_show_id = st.text_area("Show ID:")
+    with col2:
+        new_language = st.selectbox("Language", ["English", "Hindi"])
+        new_St_time = st.text_area("Movie Start Time :",St_time)
+        new_end_time = st.text_area("Movie End Time:",end_time)
+
+    if st.button("Update"): 
+            edit_task_data(new_show_id,new_language,new_St_time,new_end_time,new_show_name,show_id,language,St_time,end_time,show_name)
+            st.success("Successfully updated:: {} to ::{}".format(show_id, new_show_id))
+    result2 = view_all_data()
+    df2 = pd.DataFrame(result2, columns=['show_id','language','St_time','end_time','show_name'])
+    with st.expander("Updated data"):
+        st.dataframe(df2)

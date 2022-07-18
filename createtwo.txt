@@ -1,0 +1,17 @@
+import streamlit as st
+from database import add_data
+
+
+def create():
+    # Layout of Create
+    col1, col2 = st.columns(2)
+    with col1:
+        show_id = st.text_area("Show ID:")
+    with col2:
+        language = st.selectbox("Language", ["English", "Hindi"])
+        St_time = st.text_area("Movie Start Time :")
+        end_time= st.text_area("Movie End Time:")
+	show_name= st.selectbox("Show Name", ["Pursuit of Happiness","No Time to Die","'Dilwale"])
+    if st.button("Add Task"):
+        add_data(show_id,language,St_time,end_time,show_name)
+        st.success("Successfully added task: {}".format(show_id))

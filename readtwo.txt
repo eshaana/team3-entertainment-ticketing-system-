@@ -1,0 +1,13 @@
+import pandas as pd
+import streamlit as st
+import plotly.express as px
+from database import view_all_data
+
+
+def read():
+    result = view_all_data()
+    # st.write(result)
+    df = pd.DataFrame(result, columns=['show_id','language','St_time','end_time','show_name'])
+    with st.expander("View Movie"):
+        st.dataframe(df)
+   

@@ -1,0 +1,46 @@
+# Importing pakages
+import streamlit as st
+import psycopg2
+
+
+from create import create
+from database import create_table, add_data, view_all_data, view_only_tasks, get_task, edit_task_data, delete_data
+from delete import delete
+from read import read
+from update import update
+
+
+def main():
+
+    conn = psycopg2.connect(host="localhost",database="entsystem",user="postgres",password="eshaana1234")    
+    c=conn.cursor()
+    #cur.execute("select * from Bill;")
+    #rows=cur.fetchall()
+    #st.write(f"{rows}")
+
+    st.title("Entertainment Ticketing System")
+    menu = ["Add", "View", "Edit", "Remove"]
+    choice = st.sidebar.selectbox("Menu", menu)
+
+    create_table()
+    if choice == "Add":
+        st.subheader("Add")
+        create()
+
+    elif choice == "View":
+        st.subheader("View")
+        read()
+
+    elif choice == "Edit":
+        st.subheader("Update")
+        update()
+
+    elif choice == "Remove":
+        st.subheader("Delete")
+        delete()
+
+    else:
+        st.subheader("About Entertainment_ticketing_system")
+
+if __name__ == '__main__':
+    main()
